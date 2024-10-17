@@ -1,0 +1,84 @@
+version: '3'
+services:
+
+  postgres_async_api:
+    container_name: postgres_async_api
+    image: postgres:15.7
+    restart: always
+    env_file:
+      - ./.env
+    volumes:
+      - $HOME/postgresql_async_api/data:/var/lib/postgresql/data
+    ports:
+      - 5430:5432
+    networks:
+      - appnet
+
+  # backend:
+  #   container_name: django
+  #   build:
+  #     context: ./movies_admin/
+  #   env_file:
+  #     - ./.env
+  #   depends_on:
+  #     - postgres_async_api
+  #   ports:
+  #     - 8002:8000
+  #   volumes:
+  #     - ./movies_admin:/opt/app
+  #   networks:
+  #     - appnet
+
+  # nginx:
+  #   container_name: nginx
+  #   image: nginx:latest
+  #   volumes:
+  #     - ./nginx.conf:/etc/nginx/nginx.conf:ro
+  #     - ./configs:/etc/nginx/conf.d:ro
+  #     - ./movies_admin/static:/opt/app/static
+  #     - ./movies_admin/media:/opt/app/media
+  #   depends_on:
+  #     - backend
+  #   ports:
+  #     - 80:80
+  #   networks:
+  #     - appnet
+  # pgadmin:
+  #   container_name: pgadmin
+  #   image: dpage/pgadmin4:latest
+  #   env_file:
+  #     - ./.env
+  #   ports:
+  #     - 82:80
+  #   networks:
+  #     - appnet
+  # swagger:
+  #   container_name: swagger
+  #   image: swaggerapi/swagger-ui:latest
+  #   ports:
+  #     - 8085:8080
+  #   volumes:
+  #     - ./openapi.yaml:/swagger.yaml
+  #   environment:
+  #     - SWAGGER_JSON=/swagger.yaml
+  #   networks:
+  #     - appnet
+  # elasticsearch:
+  #   container_name: elasticsearch
+  #   image: elasticsearch:8.6.2
+  #   env_file:
+  #     - ./.env
+  #   ports:
+  #     - 9200:9200
+  #   volumes:
+  #     - elasticsearch-data:/usr/share/elasticsearch/data
+  #   depends_on:
+  #     - db
+
+networks:
+  appnet:
+    driver: bridge
+    name: appnet
+
+# volumes:
+#   elasticsearch-data:

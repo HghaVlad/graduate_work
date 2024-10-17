@@ -1,0 +1,77 @@
+version: '3'
+services:
+  # fastapi_async_api:
+  #   container_name: fastapi_async_api
+  #   build:
+  #     context: .
+  #   env_file:
+  #     - ./src/.env
+  #   volumes:
+  #     - .:/opt/app
+  #   ports:
+  #     - 8000:8000
+  #   networks:
+  #     - appnet
+
+  # redis_async_api:
+  #   container_name: redis_async_api
+  #   image: redis:latest
+  #   volumes:
+  #     - async-api-redis-data:/var/lib/redis
+  #     - async-api-redis.conf:/usr/local/etc/redis/redis.conf
+  #   ports:
+  #     - 6379:6379
+  #   networks:
+  #     - appnet
+
+  # elasticsearch_async_api:
+  #   container_name: elasticsearch_async_api
+  #   image: elasticsearch:8.6.2
+  #   env_file:
+  #     - ./.env
+  #   ports:
+  #     - 9200:9200
+  #   volumes:
+  #     - elasticsearch-data:/usr/share/elasticsearch/data
+  #   networks:
+  #     - appnet
+  #   depends_on:
+  #     - redis_async_api
+
+  # etl_async_api:
+  #    container_name: etl_async_api
+  #    build:
+  #      context: ./etl/.
+  #    restart: always
+  #    env_file:
+  #      - ./etl/.env
+  #    depends_on:
+  #      - postgres_async_api
+  #      - elasticsearch_async_api
+  #    networks:
+  #      - appnet
+  #    command: bash load_data.sh
+
+  postgres_async_api:
+    container_name: postgres_async_api
+    image: postgres:15.7
+    env_file:
+      - ./etl/.env
+    ports:
+      - 5432:5432
+    volumes:
+      - $HOME/postgresql_async_api/data:/var/lib/postgresql/data
+      - ./etl/sqlite_to_postgres/movies_database.ddl:/datapsql/movies_database.ddl:ro
+    networks:
+      - appnet
+    restart: always
+
+
+networks:
+  appnet:
+    driver: bridge
+
+# volumes:
+#   elasticsearch-data:
+#   async-api-redis-data:
+#   async-api-redis.conf:

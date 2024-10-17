@@ -1,0 +1,17 @@
+*.py[cdo]
+.venv*
+.vscode
+
+state_storage.json
+backend_for_async_api_run.sh
+backend_for_auth_run.sh
+backend_for_ugc_flask_run.sh
+backend_for_ugc_fastapi_run.sh
+etl_run.sh
+
+lighthouse
+nginx/logs
+.mypy_cache
+*logs
+.env
+.DS_Store
