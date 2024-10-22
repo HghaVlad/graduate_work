@@ -1,5 +1,6 @@
 import os
-
+from dotenv import load_dotenv
+load_dotenv()
 
 DATABASES = {
     'default': {
@@ -14,3 +15,5 @@ DATABASES = {
         }
     }
 }
+
+print(DATABASES)

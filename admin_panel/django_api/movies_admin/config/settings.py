@@ -39,8 +39,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # Third-party
     'corsheaders',
+    "rest_framework",
     # Local
     'movies.apps.MoviesConfig',
+    "profiles.apps.ProfilesConfig",
 ]
 
 MIDDLEWARE = [
