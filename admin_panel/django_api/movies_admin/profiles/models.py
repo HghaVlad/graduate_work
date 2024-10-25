@@ -15,11 +15,9 @@ class Profile(models.Model):
         return self.user.username
 
 
-class Review(models.Model):
-    text = models.TextField(null=True, blank=True)
-    rating = models.IntegerField()
+class Bookmark(models.Model):
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
     film = models.ForeignKey('movies.FilmWork', on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.text
+        return self.profile + " - " + self.film.name

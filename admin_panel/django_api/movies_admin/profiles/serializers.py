@@ -1,5 +1,5 @@
 from rest_framework.serializers import ModelSerializer
-from .models import Profile, Review
+from .models import Profile, Bookmark
 
 
 class ProfilesSerializer(ModelSerializer):
@@ -9,8 +9,8 @@ class ProfilesSerializer(ModelSerializer):
         read_only_fields = ['id']
 
 
-class ReviewSerializer(ModelSerializer):
+class BookmarkSerializer(ModelSerializer):
     class Meta:
-        model = Review
+        model = Bookmark
         fields = '__all__'
         read_only_fields = ['id', "profile", "film"]
