@@ -1,5 +1,5 @@
-<form action='' method="post">
-    Click YES to confirm
-    <input type = "submit" value="YES">
-    <a href='/data'>Cancel</a>
+<form method="post">
+    {% csrf_token %}
+    <input type = "submit" value="Yes">
+    <a href='/'>No</a>
 </form>
