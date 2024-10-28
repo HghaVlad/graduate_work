@@ -1,72 +1,58 @@
-from flask import Flask, render_template, request, redirect
+from .models import FilmWork
+from .forms import FilmworkForm
+from django.shortcuts import render, redirect, get_object_or_404
+from django.http import Http404
+ 
+def create_view(request):
+    if request.method == 'POST':
+        form = FilmworkForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('/')
+    else:
+        form = FilmworkForm()
+        context = {
+            'form': form
+        }
+        return render(request, 'create.html', context)
 
-from db import db
+def student_view(request):
+    dataset = FilmWork.objects.all()
+    return render(request, 'listview.html', {'dataset': dataset})
+ 
+def student_detail_view(request, id):
+    try:
+        data = FilmWork.objects.get(id=id)
+    except FilmWork.DoesNotExist:
+        raise Http404
+ 
+    return render(request, 'detailview.html', {'data': data})
 
-from movies.models import FilmWork
- 
-app = Flask(__name__)
- 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+def update_view(request, id):
+    try:
+        old_data = get_object_or_404(FilmWork, id=id)
+    except Exception:
+        raise Http404
+    if request.method =='POST':
+        form = FilmForm(request.POST, instance=old_data)
+        if form.is_valid():
+            form.save()
+            return redirect(f'/{id}')
+    else:
+        form = FilmForm(instance = old_data)
+        context ={
+            'form':form
+        }
+        return render(request, 'update.html', context)
 
-db.init_app(app)
- 
-@app.before_first_request
-def create_table():
-    db.create_all()
- 
-@app.route('/data/create' , methods = ['GET','POST'])
-def create():
-    if request.method == 'GET':
-        return render_template('createpage.html')
+def delete_view(request, id):
+    try:
+        data = get_object_or_404(FilmWork, id=id)
+    except Exception:
+        raise Http404
  
     if request.method == 'POST':
-        title = request.form['title']
-        description = request.form['description']
-        creation_date = request.form['creation_date']
-        rating = request.form['rating']
-        type = request.form['type']
-	genres = request.form['GenreFilmWork']
-	persons = request.form['PersonFilmWork']
-        db.session.add(filmwork)
-        db.session.commit()
-        return redirect('/data')
- 
- 
-@app.route('/data')
-def RetrieveList():
-    FilmWorks = FilmWork.query.all()
-    return render_template('datalist.html', filmworks = filmworks)
- 
- 
-@app.route('/data/<int:id>/update',methods = ['GET','POST'])
-def update(id):
-    filmwork = FilmWork.query.filter_by(filmwork_id=id).first()
-    if request.method == 'POST':
-        if filmwork:
-        	title = request.form['title']
-        	description = request.form['description']
-        	creation_date = request.form['creation_date']
-        	rating = request.form['rating']
-        	type = request.form['type']
-		genres = request.form['GenreFilmWork']
-		persons = request.form['PersonFilmWork']
-        	db.session.add(filmwork)
-        	db.session.commit()
-            	return redirect(f'/data/{id}')
-        return f"Filmwork with id = {id} Does nit exist"
- 
-    return render_template('update.html', filmwork = filmwork)
- 
- 
-@app.route('/data/<int:id>/delete', methods=['GET','POST'])
-def delete(id):
-    filmwork = FilmWork.query.filter_by(filmwork_id=id).first()
-    if request.method == 'POST':
-        if filmwork:
-            db.session.delete(filmwork)
-            db.session.commit()
-            return redirect('/data')
-        abort(404)
- 
-    return render_template('delete.html')
+        data.delete()
+        return redirect('/')
+    else:
+        return render(request, 'delete.html')
