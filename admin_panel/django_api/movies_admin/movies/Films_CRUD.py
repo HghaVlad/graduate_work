@@ -16,18 +16,6 @@ def create_view(request):
         }
         return render(request, 'create.html', context)
 
-def student_view(request):
-    dataset = FilmWork.objects.all()
-    return render(request, 'listview.html', {'dataset': dataset})
- 
-def student_detail_view(request, id):
-    try:
-        data = FilmWork.objects.get(id=id)
-    except FilmWork.DoesNotExist:
-        raise Http404
- 
-    return render(request, 'detailview.html', {'data': data})
-
 def update_view(request, id):
     try:
         old_data = get_object_or_404(FilmWork, id=id)
