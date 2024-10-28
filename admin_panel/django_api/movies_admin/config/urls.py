@@ -6,7 +6,7 @@ from . import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('movies.urls')),
+    path('', include('movies.api.urls')),
     path('api/', include('movies.api.urls')),
     path("api/", include("profiles.api.urls")),
 ]

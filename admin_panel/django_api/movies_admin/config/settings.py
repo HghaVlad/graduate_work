@@ -20,7 +20,8 @@ ALGORITHM = 'RS256'
 
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
-DEBUG = os.environ.get('DEBUG', False) == 'True'
+#DEBUG = os.environ.get('DEBUG', False) == 'True'
+DEBUG = True
 
 ALLOWED_HOSTS: str = os.environ.get('ALLOWED_HOSTS').split(',')
 
@@ -41,8 +42,8 @@ INSTALLED_APPS = [
     'corsheaders',
     "rest_framework",
     # Local
-    'movies.apps.MoviesConfig',
-    "profiles.apps.ProfilesConfig",
+    'movies',
+    "profiles",
 ]
 
 MIDDLEWARE = [

@@ -102,6 +102,9 @@ class User(AbstractBaseUser):
     # менеджер модели
     objects = MyUserManager()
 
+    class Meta:
+        db_table = "content\".\"user"
+
     def __str__(self):
         return (
             f'User(id={self.id}, username={self.username}, email={self.email}, '
