@@ -57,7 +57,7 @@ class FilmWork(UUIDMixin, TimeStampedMixin):
     creation_date = models.DateField(_('creation date'), blank=True, null=True)
     rating = models.FloatField(_('rating'), blank=True, null=True,
                                validators=[MinValueValidator(0),
-                                           MaxValueValidator(100)])
+                                           MaxValueValidator(5)])
     type = models.TextField(_('type'), choices=TYPE_CHOICES)
     genres = models.ManyToManyField(Genre, through='GenreFilmWork')
     persons = models.ManyToManyField(Person, through='PersonFilmWork')
@@ -76,7 +76,7 @@ class FilmWork(UUIDMixin, TimeStampedMixin):
         sum_of_raiting = 0
         count = 0
         for rating in Review.objects.filter(film_work=self).values_list("rating"):
-            sum_of_raiting += int(rating["rating"])
+            sum_of_raiting += int(rating[0])
             count += 1
 
         if count > 0:
