@@ -21,7 +21,7 @@ class AuthJWT(BaseModel):
 
 class Settings(BaseSettings):
     # Название проекта. Используется в Swagger-документации
-    project_name: str | Any
+    project_name: str = "Async API"
 
     # Настройки Uvicorn
     uvicorn_host: str
@@ -41,7 +41,7 @@ class Settings(BaseSettings):
     # Настройки kafka
     bootstrap_servers: str
 
-    model_config = SettingsConfigDict(env_file=f'{BASE_DIR} / src /.env')
+    #model_config = SettingsConfigDict(env_file=f'{BASE_DIR} / src /.env')
 
 
 settings = Settings()

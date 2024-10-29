@@ -23,7 +23,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 #DEBUG = os.environ.get('DEBUG', False) == 'True'
 DEBUG = True
 
-ALLOWED_HOSTS: str = os.environ.get('ALLOWED_HOSTS').split(',')
+ALLOWED_HOSTS: str = ["*"]
 
 INTERNAL_IPS = [
     '127.0.0.1',
@@ -127,6 +127,7 @@ LOCALE_PATHS = ['movies/locale']
 
 CORS_ALLOWED_ORIGINS = [
     'http://127.0.0.1:8085',
+    'http://localhost:8002',
 ]
 
 REST_FRAMEWORK = {
